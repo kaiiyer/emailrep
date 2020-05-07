@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func emailrep(email string) string {
+func rep(email string) string {
 	/* local variable definition */
 
 	var mail = email
