@@ -19,7 +19,7 @@ type LiveGetWebRequest struct {
 }
 
 func (LiveGetWebRequest) FetchBytes(url string) []byte {
-	spaceClient := http.Client{
+	emailrepClient := http.Client{
 		Timeout: time.Second * 2, // Maximum of 2 secs
 	}
 
@@ -28,9 +28,9 @@ func (LiveGetWebRequest) FetchBytes(url string) []byte {
 		log.Fatal(err)
 	}
 
-	req.Header.Set("User-Agent", "spacecount-tutorial")
+	req.Header.Set("User-Agent", "emailrep")
 
-	res, getErr := spaceClient.Do(req)
+	res, getErr := emailrepClient.Do(req)
 	if getErr != nil {
 		log.Fatal(getErr)
 	}
