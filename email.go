@@ -6,7 +6,8 @@ import (
 	"net/http"
 )
 
-func rep(email string) string {
+//Rep function will return the reputation of the email address passed as the argument
+func Rep(email string) string {
 	/* local variable definition */
 
 	var mail = email
@@ -20,7 +21,7 @@ func rep(email string) string {
 		fmt.Printf("Sorry we got hit by an error!\n")
 	}
 	defer resp.Body.Close()
-	fmt.Println(string(body))
+	//	fmt.Println(string(body))
 
 	return string(body)
 }
