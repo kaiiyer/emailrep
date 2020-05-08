@@ -7,10 +7,6 @@ import (
 	"time"
 )
 
-type people struct {
-	Number int `json:"number"`
-}
-
 type GetWebRequest interface {
 	FetchBytes(url string) []byte
 }
