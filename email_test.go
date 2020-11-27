@@ -1,43 +1,29 @@
-package emailrep
+package emailrep_test
 
 import (
+	"fmt"
+	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
-	"time"
+	"net/http/httptest"
+	"testing"
 )
 
-type GetWebRequest interface {
-	FetchBytes(url string) []byte
-}
-
-type LiveGetWebRequest struct {
-}
-
-func (LiveGetWebRequest) FetchBytes(url string) []byte {
-	emailrepClient := http.Client{
-		Timeout: time.Second * 2, // Maximum of 2 secs
+func TestHttp(t *testing.T) {
+	//
+	handler := func(w http.ResponseWriter, r *http.Request) {
+		io.WriteString(w, "{ \"Status\": \"Looks Okay\"}")
 	}
 
-	req, err := http.NewRequest(http.MethodGet, url, nil)
-	if err != nil {
-		log.Fatal(err)
-	}
+	req := httptest.NewRequest("GET", "https://emailrep.io/", nil)
 
-	req.Header.Set("User-Agent", "emailrep")
+	w := httptest.NewRecorder()
+	handler(w, req)
 
-	res, getErr := emailrepClient.Do(req)
-	if getErr != nil {
-		log.Fatal(getErr)
+	resp := w.Result()
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(string(body))
+	if resp.Status == "200" {
+		t.Fatal("Something went wrong!")
 	}
-	if body != nil {
-		defer body.Close()
-	}
-
-	body, readErr := ioutil.ReadAll(res.Body)
-	if readErr != nil {
-		log.Fatal(readErr)
-	}
-
-	return body
 }
